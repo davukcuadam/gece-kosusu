@@ -1,0 +1,9 @@
+<body style="margin:0"><canvas id=c width=400 height=500></canvas>
+<script type="importmap">{"imports":{"three":"./lib/three.module.js","three/addons/":"./lib/addons/"}}</script>
+<script type=module>
+import * as T from 'three';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+const R=new T.WebGLRenderer({canvas:c}),s=new T.Scene();s.background=new T.Color(0x222233);s.add(new T.HemisphereLight(0xffffff,0x553344,1.5));
+const d=new T.DirectionalLight(0xffffff,1.5);d.position.set(2,5,6);s.add(d);
+new GLTFLoader().load('assets/chica.glb',g=>{const o=g.scene;o.updateMatrixWorld(true);const b=new T.Box3();o.traverse(x=>{if(x.isSkinnedMesh){x.skeleton.update();x.computeBoundingBox();const w=x.boundingBox.clone().applyMatrix4(x.matrixWorld);if(w.max.y>-1000)b.union(w);else x.visible=false}});const h=b.max.y-b.min.y;const k=3.6/h;o.scale.multiplyScalar(k);o.position.y=-b.min.y*k;o.traverse(x=>{if(x.isMesh)x.frustumCulled=false});s.add(o);
+const cam=new T.PerspectiveCamera(50,.8,.1,50);cam.position.set(0,2,7);cam.lookAt(0,1.7,0);R.render(s,cam);document.title='done '+h.toFixed(1)})
+</script>

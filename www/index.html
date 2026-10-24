@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Gece Koşusu: FNAF V7</title>
+<style>
+:root{--y:#ffd400;--r:#d3122b;--k:#0b0610}
+*{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--k);touch-action:none;font-family:Impact,Haettenschweiler,"Arial Narrow Bold",sans-serif;color:#fff}
+canvas{position:fixed;inset:0;width:100%;height:100%}
+.p{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px;text-align:center}
+.p.on{display:flex}
+#over,#pause,#shop,#set,#cheat{background:rgba(8,3,12,.88);backdrop-filter:blur(6px)}
+#boot{background:linear-gradient(#0b0610dd,#0b061033 45%,#0b0610ee)}
+#menu{justify-content:space-between;padding:calc(14px + env(safe-area-inset-top)) 16px calc(18px + env(safe-area-inset-bottom))}
+h1{margin:0;font-size:clamp(36px,9vw,84px);letter-spacing:2px;color:var(--y);text-shadow:4px 4px 0 var(--r);transform:rotate(-2deg)}
+h2{margin:0;font-size:32px;color:var(--y)}
+.b{font:inherit;font-size:24px;padding:12px 26px;min-width:190px;border:3px solid #000;background:var(--y);color:#000;transform:skew(-6deg);box-shadow:5px 5px 0 var(--r);cursor:pointer}
+.b:active{transform:skew(-6deg) translate(3px,3px);box-shadow:2px 2px 0 var(--r)}
+.b.r{background:var(--r);color:#fff}.b.s{font-size:17px;padding:8px 12px;min-width:0}
+.b.on{outline:3px solid #fff}
+.row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;width:min(640px,100%)}
+.top{display:flex;gap:18px;font-size:24px;width:100%;justify-content:space-between;align-items:center}
+.top span{background:#000a;padding:4px 12px;border-left:4px solid var(--y)}
+#hud{pointer-events:none;justify-content:flex-start;align-items:stretch;padding:calc(10px + env(safe-area-inset-top)) 14px}
+#hud .top{text-shadow:2px 2px 0 #000}
+#pw{font-size:20px;color:var(--y);text-align:left}
+#ps{pointer-events:auto;font-size:20px;padding:6px 14px;min-width:0}
+#vig{position:fixed;inset:0;pointer-events:none;opacity:0;box-shadow:inset 0 0 22vmin 6vmin #f00}
+#fl{position:fixed;inset:0;pointer-events:none;opacity:0;background:#d00}
+#ban{position:fixed;left:0;right:0;top:30%;text-align:center;font-size:clamp(30px,8vw,64px);color:var(--y);text-shadow:3px 3px 0 var(--r);opacity:0;transition:opacity .25s;pointer-events:none}
+#cine{position:fixed;inset:0;pointer-events:none;display:none;border-top:12vh solid #000;border-bottom:12vh solid #000}
+#cine.on{display:block}
+#bw{width:min(420px,80%);height:12px;border:2px solid var(--y)}#bar{height:100%;width:0;background:var(--r)}
+.sm{font-size:16px;opacity:.8;max-width:520px;font-family:system-ui,sans-serif}
+input[type=range]{width:200px}
+.ver{display:inline-block;font-size:20px;background:var(--r);padding:2px 14px;letter-spacing:4px;transform:rotate(-2deg)}
+.tape{position:absolute;top:0;left:0;right:0;height:22px;background:repeating-linear-gradient(-45deg,#ffd400 0 18px,#000 18px 36px)}.tape.bt{top:auto;bottom:0}
+#pct{font-size:22px;color:var(--y)}#tip{min-height:40px}
+.b{background:linear-gradient(#ffe45c,#ffb800);border-radius:8px}.b.r{background:linear-gradient(#ff3b52,#a80b1f)}
+.grid .b{min-height:88px;line-height:1.3;text-align:center;font-family:inherit}
+#bb{pointer-events:auto;position:fixed;right:14px;bottom:calc(26px + env(safe-area-inset-bottom));min-width:0;font-size:28px;padding:14px 20px}
+#menu .top span{background:linear-gradient(90deg,#000b,#0000)}
+</style></head><body>
+<canvas id="c"></canvas>
+<div id="vig"></div><div id="fl"></div><div id="ban"></div><div id="cine"></div>
+
+<div id="boot" class="p on"><div class="tape"></div><div class="tape bt"></div><h1 id="logo0">GECE KOŞUSU</h1><div class="ver">FINAL V7</div><div class="sm" id="tip"></div>
+<div id="bw"><div id="bar"></div></div><div id="pct">0%</div><button class="b r" id="tap">DOKUN VE BAŞLA</button></div>
+
+<div id="menu" class="p"><div class="top"><span>🪙 <b id="mc">0</b></span><span>🔑 <b id="mk">0</b></span><span>REKOR <b id="mb">0</b></span></div>
+<div><h1 id="logo">GECE KOŞUSU</h1><div class="ver">FINAL V7</div></div>
+<div class="row"><button class="b r" id="play">OYNA</button><button class="b" id="bshop">MARKET</button><button class="b" id="bset">AYARLAR</button></div></div>
+
+<div id="hud" class="p"><div class="top"><span>SKOR <b id="hs">0</b></span><span>🪙 <b id="hc">0</b></span><span>🔑 <b id="hk">0</b></span><button class="b s" id="ps">II</button></div><div id="pw"></div><button class="b" id="bb">🏄 <b id="bn">1</b></button></div>
+
+<div id="pause" class="p"><h2>DURAKLATILDI</h2><button class="b r" id="resume">DEVAM</button><button class="b" id="pmenu">ANA MENÜ</button></div>
+
+<div id="over" class="p"><h1 id="ot">YAKALANDIN</h1><h2>SKOR <span id="os">0</span> · 🪙 <span id="oc">0</span></h2>
+<div class="row"><button class="b r" id="rev">DİRİL (3 🔑)</button><button class="b" id="retry">TEKRAR</button><button class="b" id="omenu">MENÜ</button></div></div>
+
+<div id="shop" class="p"><h2>MARKET</h2><div class="top"><span>🪙 <b class="mc2">0</b></span><span>🔑 <b class="mk2">0</b></span></div><div class="grid" id="sg"></div><button class="b" data-back>GERİ</button></div>
+
+<div id="set" class="p"><h2>AYARLAR</h2>
+<div class="sm">Müzik</div><div class="row" id="sm"></div>
+<div class="sm">Ses seviyesi</div><input type="range" id="sv" min="0" max="1" step=".05">
+<div class="sm">Grafik kalitesi (oyun kendiliğinden de ayarlar)</div><div class="row" id="sq"></div>
+<div class="sm">Kontroller: ← → şerit · ↑ / Boşluk zıpla · ↓ kay · P duraklat · Telefonda parmağı kaydır</div>
+<button class="b" data-back>GERİ</button></div>
+
+<div id="cheat" class="p"><h2>GİZLİ MENÜ</h2><div class="grid" id="cg"></div><button class="b" data-back>KAPAT</button></div>
+
+<script type="importmap">{"imports":{"three":"./lib/three.module.js","three/addons/":"./lib/addons/"}}</script>
+<script type="module" src="main.js"></script>
+</body></html>

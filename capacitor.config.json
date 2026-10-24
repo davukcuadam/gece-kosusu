@@ -1,0 +1,2 @@
+{ "appId": "com.fnaf.nightrunner", "appName": "Gece Kosusu", "webDir": "www",
+  "server": { "androidScheme": "https" }, "android": { "allowMixedContent": true } }

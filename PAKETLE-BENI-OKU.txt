@@ -1,0 +1,15 @@
+EXE ve APK'yi BILGISAYARINA HICBIR SEY KURMADAN yapmak (GitHub, ucretsiz)
+=========================================================================
+1) github.com'da ucretsiz hesap ac, sag ustten "New repository" -> adi: gece-kosusu -> Public -> Create.
+2) Bu zip'i bilgisayarda ac. Repo sayfasinda "uploading an existing file" linkine tikla.
+   Zip'in ICINDEKI her seyi (www klasoru, .github klasoru, package.json, electron-main.js,
+   capacitor.config.json ...) surukle birak. ".github" gizli klasor gorunmuyorsa Windows'ta
+   Gorunum > Gizli ogeler'i ac. "Commit changes" bas.
+3) Ustteki "Actions" sekmesi -> sol tarafta "EXE ve APK olustur" -> "Run workflow".
+   (Ilk sefer "I understand my workflows" onayi isteyebilir.) 5-10 dk bekle.
+4) Bitince calistirmaya tikla, en altta "Artifacts": GeceKosusu-EXE (PC) ve GeceKosusu-APK (telefon) indir.
+   Indirilen zip'i ac: icinden .exe ve .apk cikar.
+5) APK: telefona at, ac. "Bilinmeyen kaynak" izni isterse ver. EXE: cift tikla (F11 tam ekran, Esc/P duraklat).
+
+Hata olursa Actions'taki kirmizi isleme tikla, hata satirini bana yapistir.
+Kendi bilgisayarinda yapmak istersen: build-exe.bat ve build-apk.bat.
